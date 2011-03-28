@@ -54,27 +54,42 @@ namespace System.Web.PowerShell
 
         public override void Write(ConsoleColor foregroundColor, ConsoleColor backgroundColor, string value)
         {
-            this._host.Call(foo => foo.Write(foregroundColor, backgroundColor, value));
+            if (this._host != null)
+            {
+                this._host.Write(foregroundColor, backgroundColor, value);
+            }
         }
 
         public override void Write(string value)
         {
-            this._host.Call(foo => foo.Write(value));
+            if (this._host != null)
+            {
+                this._host.Write(value);
+            }
         }
 
         public override void WriteDebugLine(string message)
         {
-            this._host.Call(foo => foo.WriteDebugLine(message));
+            if (this._host != null)
+            {
+                this._host.WriteDebugLine(message);
+            }
         }
 
         public override void WriteErrorLine(string value)
         {
-            this._host.Call(foo => foo.WriteErrorLine(value));
+            if (this._host != null)
+            {
+                this._host.WriteErrorLine(value);
+            }
         }
 
         public override void WriteLine(string value)
         {
-            this._host.Call(foo => foo.WriteLine(value));
+            if (this._host != null)
+            {
+                this._host.WriteLine(value);
+            }
         }
 
         public override void WriteProgress(long sourceId, ProgressRecord record)
@@ -83,12 +98,18 @@ namespace System.Web.PowerShell
 
         public override void WriteVerboseLine(string message)
         {
-            this._host.Call(foo => foo.WriteVerboseLine(message));
+            if (this._host != null)
+            {
+                this._host.WriteVerboseLine(message);
+            }
         }
 
         public override void WriteWarningLine(string message)
         {
-            this._host.Call(foo => foo.WriteWarningLine(message));
+            if (this._host != null)
+            {
+                this._host.WriteWarningLine(message);
+            }
         }
     }
 }

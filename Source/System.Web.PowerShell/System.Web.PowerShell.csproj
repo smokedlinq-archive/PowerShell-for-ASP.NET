@@ -46,20 +46,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BaseHttpPowerShell.cs" />
     <Compile Include="HttpPowerShellConfigurationFactory.cs" />
+    <Compile Include="HttpPowerShellInvoker.cs" />
+    <Compile Include="HttpPowerShellPool.cs" />
+    <Compile Include="IHttpPowerShell.cs" />
     <Compile Include="IHttpPowerShellHost.cs" />
     <Compile Include="System.Collections.Generic\DisposableCollection`1.cs" />
     <Compile Include="System.Configuration\Configuration`1.cs" />
     <Compile Include="System.Configuration\DefaultConfigurationFactory.cs" />
     <Compile Include="System.Configuration\IConfiguration.cs" />
     <Compile Include="System.Configuration\IConfigurationFactory.cs" />
-    <Compile Include="System.Management.Automation\PowerShellConfigurationFactory.cs" />
     <Compile Include="System.Dynamic\DynamicConverter.cs" />
     <Compile Include="System.Management.Automation\DynamicPSObject.cs" />
     <Compile Include="HttpPowerShell.cs" />
-    <Compile Include="HttpPowerShellHelpers.cs" />
+    <Compile Include="HttpPowerShellPSObjectConverter.cs" />
     <Compile Include="HttpPowerShellHost.cs" />
-    <Compile Include="HttpPowerShellHostEventArgs.cs" />
     <Compile Include="HttpPowerShellHostRawUserInterface.cs" />
     <Compile Include="HttpPowerShellHostUserInterface.cs" />
     <Compile Include="System.Collections.Generic\IDisposableEnumerable`1.cs" />

@@ -1,10 +1,12 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Management.Automation;
 
 namespace System.Web.PowerShell
 {
-    public static class HttpPowerShellHelpers
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    public static class HttpPowerShellPSObjectConverter
     {
         public static IEnumerable<dynamic> AsDynamic(this IEnumerable<PSObject> collection)
         {
@@ -21,12 +23,9 @@ namespace System.Web.PowerShell
             return (DynamicPSObject)obj;
         }
 
-        internal static void Call(this IHttpPowerShellHost host, Action<IHttpPowerShellHost> action)
+        public static IDisposableEnumerable<PSObject> AsDisposable(this IEnumerable<PSObject> collection)
         {
-            if (host != null)
-            {
-                action(host);
-            }
+            return new DisposableCollection<PSObject>(collection, obj => obj.BaseObject as IDisposable);
         }
     }
 }

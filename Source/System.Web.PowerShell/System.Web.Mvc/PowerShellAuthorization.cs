@@ -10,29 +10,16 @@ namespace System.Web.Mvc
     {
         public static bool IsAuthorized(string scriptPath, HttpContextBase context, IPrincipal principal, ActionDescriptor action, object routeValues, bool test = false)
         {
-            using (var runspace = HttpPowerShell.CreateRunspace())
-            {
-                runspace.Open();
+            var parameters = new 
+                { 
+                    HttpContext = context, 
+                    Principal = principal, 
+                    Action = action, 
+                    RouteValues = routeValues, 
+                    Test = test 
+                };
 
-                using (var ps = System.Management.Automation.PowerShell.Create())
-                {
-                    ps.Runspace = runspace;
-
-                    var commandText = HttpPowerShell.ReadFile(scriptPath);
-                    var parameters = new 
-                        { 
-                            HttpContext = context, 
-                            Principal = principal, 
-                            Action = action, 
-                            RouteValues = routeValues, 
-                            Test = test 
-                        };
-
-                    ps.Commands = HttpPowerShell.ConvertToPSCommand(commandText, parameters);
-                    
-                    return ps.Invoke<bool>().FirstOrDefault();
-                }
-            }
+            return HttpPowerShell.Invoke<bool>(scriptPath, parameters: parameters, isScript: true).FirstOrDefault();
         }
 
         public static bool IsAuthorized<T>(this T controller, Expression<Action<T>> action, object routeValues = null)

@@ -1,43 +1,32 @@
 ﻿using System.Configuration;
-using System.Management.Automation;
+using System.Linq;
 using System.Management.Automation.Runspaces;
 
 namespace System.Web.PowerShell
 {
-    public class HttpPowerShellConfigurationFactory<T> : PowerShellConfigurationFactory<T>
+    public class HttpPowerShellConfigurationFactory<T> : IConfigurationFactory<T>
         where T : IConfiguration
     {
-        public static HttpPowerShellConfigurationFactory<T> FromFile(string path, PSThreadOptions threadOptions = PSThreadOptions.UseCurrentThread, IHttpPowerShellHost host = null)
-        {
-            var content = HttpPowerShell.ReadFile(path);
+        string _path;
+        PSThreadOptions _threadOptions;
+        IHttpPowerShellHost _host;
 
-            var factory = new HttpPowerShellConfigurationFactory<T>()
+        public static HttpPowerShellConfigurationFactory<T> FromFile(string path, IHttpPowerShellHost host = null, PSThreadOptions threadOptions = PSThreadOptions.UseCurrentThread)
+        {
+            return new HttpPowerShellConfigurationFactory<T>()
                 {
-                    Commands = new PSCommand(),
-                    ThreadOptions = threadOptions,
-                    Host = host
+                    _path = path,
+                    _threadOptions = threadOptions,
+                    _host = host
                 };
-
-            factory.Commands.AddScript(content, true);
-
-            return factory;
         }
 
-        protected PSThreadOptions ThreadOptions
+        public T CreateInstance()
         {
-            get;
-            private set;
-        }
-
-        protected IHttpPowerShellHost Host
-        {
-            get;
-            private set;
-        }
-
-        protected override Runspace CreateRunspace(RunspaceConfiguration config)
-        {
-            return HttpPowerShell.CreateRunspace(config, this.ThreadOptions, this.Host);
+            using (var ps = HttpPowerShell.Create(this._host, this._threadOptions))
+            {
+                return HttpPowerShellInvoker.Invoke<T>(ps, this._path, isScript: true).FirstOrDefault();
+            }
         }
     }
 }

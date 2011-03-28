@@ -49,17 +49,26 @@ namespace System.Web.PowerShell
 
         public override void NotifyBeginApplication()
         {
-            this._host.Call(foo => foo.NotifyBeginApplication());
+            if (this._host != null)
+            {
+                this._host.NotifyBeginApplication();
+            }
         }
 
         public override void NotifyEndApplication()
         {
-            this._host.Call(foo => foo.NotifyEndApplication());
+            if (this._host != null)
+            {
+                this._host.NotifyEndApplication();
+            }
         }
 
         public override void SetShouldExit(int exitCode)
         {
-            this._host.Call(foo => foo.SetShouldExit(exitCode));
+            if (this._host != null)
+            {
+                this._host.SetShouldExit(exitCode);
+            }
         }
 
         public override PSHostUserInterface UI
