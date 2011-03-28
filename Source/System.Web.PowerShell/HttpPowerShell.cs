@@ -7,7 +7,7 @@ namespace System.Web.PowerShell
 {
     public class HttpPowerShell : BaseHttpPowerShell
     {
-        public HttpPowerShell(IHttpPowerShellHost host = null, PSThreadOptions threadOptions = PSThreadOptions.UseCurrentThread)
+        private HttpPowerShell(IHttpPowerShellHost host = null, PSThreadOptions threadOptions = PSThreadOptions.UseCurrentThread)
         {
             var runspace = RunspaceFactory.CreateRunspace(new HttpPowerShellHost(host));
 
