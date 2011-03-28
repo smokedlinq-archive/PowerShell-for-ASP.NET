@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Source", "Source", "{39456F07-6E2D-4C6B-ADCC-0A510ACAA894}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "System.Web.PowerShell", "Source\System.Web.PowerShell\System.Web.PowerShell.csproj", "{1CFDB308-D392-43E8-BA3E-3890E273DA2B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1CFDB308-D392-43E8-BA3E-3890E273DA2B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1CFDB308-D392-43E8-BA3E-3890E273DA2B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1CFDB308-D392-43E8-BA3E-3890E273DA2B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1CFDB308-D392-43E8-BA3E-3890E273DA2B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{1CFDB308-D392-43E8-BA3E-3890E273DA2B} = {39456F07-6E2D-4C6B-ADCC-0A510ACAA894}
+	EndGlobalSection
+EndGlobal
