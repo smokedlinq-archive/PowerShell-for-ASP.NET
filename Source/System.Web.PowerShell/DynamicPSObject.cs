@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
+using System.Management.Automation;
 
-namespace System.Management.Automation
+namespace System.Web.PowerShell
 {
-    internal class DynamicPSObject : DynamicObject
+    internal sealed class DynamicPSObject : DynamicObject
     {
         public DynamicPSObject(PSObject obj)
         {
@@ -14,7 +15,7 @@ namespace System.Management.Automation
         public PSObject BaseObject
         {
             get;
-            protected set;
+            private set;
         }
 
         public static explicit operator DynamicPSObject(PSObject obj)

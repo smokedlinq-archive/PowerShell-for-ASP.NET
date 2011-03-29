@@ -5,66 +5,86 @@ using System.Management.Automation.Runspaces;
 
 namespace System.Web.PowerShell
 {
-    public class HttpPowerShell : BaseHttpPowerShell
+    public sealed class HttpPowerShell : IDisposable
     {
-        private HttpPowerShell(IHttpPowerShellHost host = null, PSThreadOptions threadOptions = PSThreadOptions.UseCurrentThread)
+        Runspace _runspace;
+        bool _disposed;
+
+        private HttpPowerShell()
         {
-            var runspace = RunspaceFactory.CreateRunspace(new HttpPowerShellHost(host));
+            this._runspace = RunspaceFactory.CreateRunspace(new HttpPowerShellHost());
 
             try
             {
-                runspace.ThreadOptions = PSThreadOptions.UseCurrentThread;
-                runspace.Open();
-
-                this.Runspace = runspace;
+                this._runspace.ThreadOptions = PSThreadOptions.UseCurrentThread;
+                this._runspace.Open();
             }
             catch
             {
-                runspace.Dispose();
+                this._runspace.Dispose();
                 throw;
             }
         }
 
-        public static HttpPowerShell Create(IHttpPowerShellHost host = null, PSThreadOptions threadOptions = PSThreadOptions.UseCurrentThread)
+        ~HttpPowerShell()
         {
-            return new HttpPowerShell(host, threadOptions);
+            Dispose(false);
         }
 
-        public static IEnumerable<T> Invoke<T>(string command, IEnumerable input = null, object parameters = null, bool useLocalScope = false, bool isScript = false)
+        public IEnumerable<T> Invoke<T>(PSCommand command, IEnumerable input)
         {
-            using (var ps = HttpPowerShell.Create())
+            if (this._disposed)
             {
-                return HttpPowerShellInvoker.Invoke<T>(ps, command, input, parameters, useLocalScope, isScript);
+                throw new ObjectDisposedException(null);
+            }
+
+            using (var powerShell = System.Management.Automation.PowerShell.Create())
+            {
+                powerShell.Runspace = this._runspace;
+                powerShell.Commands = command;
+                return powerShell.Invoke<T>(input);
             }
         }
 
-        public static IEnumerable<PSObject> Invoke(string command, IEnumerable input = null, object parameters = null, bool useLocalScope = false, bool isScript = false)
+        public static IEnumerable<T> Invoke<T>(IHttpPowerShellCommand command, IEnumerable input = null)
         {
-            return Invoke<PSObject>(command, input, parameters, useLocalScope, isScript);
+            using (var powerShell = new HttpPowerShell())
+            {
+                return powerShell.Invoke<T>(command.ToPSCommand(), input);
+            }
         }
 
-        protected Runspace Runspace
+        public static IEnumerable<T> Invoke<T>(string script, IEnumerable input = null, object parameters = null, bool useLocalScope = false)
         {
-            get;
-            private set;
+            return Invoke<T>(HttpPowerShellCommand.FromScript(script, parameters, useLocalScope), input);
         }
 
-        protected override void Dispose(bool disposing)
+        public static IEnumerable<PSObject> Invoke(IHttpPowerShellCommand command, IEnumerable input = null)
+        {
+            return Invoke<PSObject>(command, input);
+        }
+
+        public static IEnumerable<PSObject> Invoke(string script, IEnumerable input = null, object parameters = null, bool useLocalScope = false)
+        {
+            return Invoke<PSObject>(script, input, parameters, useLocalScope);
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        void Dispose(bool disposing)
         {
             if (disposing)
             {
-                if (!this.IsDisposed)
+                if (!this._disposed)
                 {
-                    this.Runspace.Dispose();
+                    this._runspace.Dispose();
+                    this._disposed = true;
                 }
             }
-
-            base.Dispose(disposing);
-        }
-
-        protected override void PreparePowerShell(System.Management.Automation.PowerShell instance)
-        {
-            instance.Runspace = this.Runspace;
         }
     }
 }

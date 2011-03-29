@@ -2,7 +2,7 @@
 
 namespace System.Web.PowerShell
 {
-    internal class HttpPowerShellHostRawUserInterface : PSHostRawUserInterface
+    internal sealed class HttpPowerShellHostRawUserInterface : PSHostRawUserInterface
     {
         static readonly Size DefaultSize = new Size();
         static readonly Coordinates DefaultCoordinates = new Coordinates();

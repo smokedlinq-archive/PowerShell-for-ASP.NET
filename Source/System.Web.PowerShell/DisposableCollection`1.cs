@@ -4,8 +4,11 @@ using System.Linq;
 
 namespace System.Web.PowerShell
 {
-    internal class DisposableCollection<T> : Collection<T>, IDisposableEnumerable<T>
+    internal sealed class DisposableCollection<T> : Collection<T>, IDisposableEnumerable<T>
     {
+        Func<T, IDisposable> _converter;
+        bool _disposed;
+
         public DisposableCollection()
             : this(new T[0])
         {
@@ -16,27 +19,15 @@ namespace System.Web.PowerShell
         {
         }
 
-        public DisposableCollection(IEnumerable<T> collection, Func<T, IDisposable> resolver)
+        public DisposableCollection(IEnumerable<T> collection, Func<T, IDisposable> converter)
             : base(collection.ToList())
         {
-            this.Resolver = resolver;
+            this._converter = converter;
         }
 
         ~DisposableCollection()
         {
             Dispose(false);
-        }
-
-        protected Func<T, IDisposable> Resolver
-        {
-            get;
-            private set;
-        }
-
-        protected bool IsDisposed
-        {
-            get;
-            private set;
         }
 
         public void Dispose()
@@ -45,17 +36,17 @@ namespace System.Web.PowerShell
             GC.SuppressFinalize(this);
         }
 
-        protected virtual void Dispose(bool disposing)
+        void Dispose(bool disposing)
         {
             if (disposing)
             {
-                if (!this.IsDisposed)
+                if (!this._disposed)
                 {
                     foreach (var obj in this)
                     {
                         if (obj != null)
                         {
-                            var disposableObj = this.Resolver(obj);
+                            var disposableObj = this._converter(obj);
 
                             if (disposableObj != null)
                             {
@@ -64,7 +55,7 @@ namespace System.Web.PowerShell
                         }
                     }
 
-                    this.IsDisposed = true;
+                    this._disposed = true;
                 }
             }
         }

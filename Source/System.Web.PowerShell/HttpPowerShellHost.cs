@@ -4,19 +4,17 @@ using System.Threading;
 
 namespace System.Web.PowerShell
 {
-    internal class HttpPowerShellHost : PSHost
+    internal sealed class HttpPowerShellHost : PSHost
     {
         static readonly Version __version = new Version(1, 0, 0, 0);
 
         readonly HttpPowerShellHostUserInterface _ui;
         readonly Guid _instanceId;
-        readonly IHttpPowerShellHost _host;
 
-        public HttpPowerShellHost(IHttpPowerShellHost host = null)
+        public HttpPowerShellHost()
         {
-            this._ui = new HttpPowerShellHostUserInterface(_host);
+            this._ui = new HttpPowerShellHostUserInterface();
             this._instanceId = Guid.NewGuid();
-            this._host = host;
         }
 
         public override CultureInfo CurrentCulture
@@ -49,26 +47,14 @@ namespace System.Web.PowerShell
 
         public override void NotifyBeginApplication()
         {
-            if (this._host != null)
-            {
-                this._host.NotifyBeginApplication();
-            }
         }
 
         public override void NotifyEndApplication()
         {
-            if (this._host != null)
-            {
-                this._host.NotifyEndApplication();
-            }
         }
 
         public override void SetShouldExit(int exitCode)
         {
-            if (this._host != null)
-            {
-                this._host.SetShouldExit(exitCode);
-            }
         }
 
         public override PSHostUserInterface UI

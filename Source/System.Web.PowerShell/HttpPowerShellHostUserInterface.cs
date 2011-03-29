@@ -6,15 +6,12 @@ using System.Security;
 
 namespace System.Web.PowerShell
 {
-    internal class HttpPowerShellHostUserInterface : PSHostUserInterface
+    internal sealed class HttpPowerShellHostUserInterface : PSHostUserInterface
     {
         static readonly HttpPowerShellHostRawUserInterface __rawUI = new HttpPowerShellHostRawUserInterface();
 
-        readonly IHttpPowerShellHost _host;
-
-        public HttpPowerShellHostUserInterface(IHttpPowerShellHost host)
+        public HttpPowerShellHostUserInterface()
         {
-            this._host = host;
         }
 
         public override Dictionary<string, PSObject> Prompt(string caption, string message, Collection<FieldDescription> descriptions)
@@ -54,42 +51,22 @@ namespace System.Web.PowerShell
 
         public override void Write(ConsoleColor foregroundColor, ConsoleColor backgroundColor, string value)
         {
-            if (this._host != null)
-            {
-                this._host.Write(foregroundColor, backgroundColor, value);
-            }
         }
 
         public override void Write(string value)
         {
-            if (this._host != null)
-            {
-                this._host.Write(value);
-            }
         }
 
         public override void WriteDebugLine(string message)
         {
-            if (this._host != null)
-            {
-                this._host.WriteDebugLine(message);
-            }
         }
 
         public override void WriteErrorLine(string value)
         {
-            if (this._host != null)
-            {
-                this._host.WriteErrorLine(value);
-            }
         }
 
         public override void WriteLine(string value)
         {
-            if (this._host != null)
-            {
-                this._host.WriteLine(value);
-            }
         }
 
         public override void WriteProgress(long sourceId, ProgressRecord record)
@@ -98,18 +75,10 @@ namespace System.Web.PowerShell
 
         public override void WriteVerboseLine(string message)
         {
-            if (this._host != null)
-            {
-                this._host.WriteVerboseLine(message);
-            }
         }
 
         public override void WriteWarningLine(string message)
         {
-            if (this._host != null)
-            {
-                this._host.WriteWarningLine(message);
-            }
         }
     }
 }
