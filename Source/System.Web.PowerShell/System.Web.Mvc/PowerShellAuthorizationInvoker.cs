@@ -8,7 +8,7 @@ namespace System.Web.Mvc
 {
     public static class PowerShellAuthorizationInvoker
     {
-        internal static bool IsAuthorized(PowerShellAuthorizationAttribute attribute, HttpContextBase context, IPrincipal principal, ActionDescriptor action, object routeValues, bool test = false)
+        internal static bool IsAuthorized(PowerShellAuthorization attribute, HttpContextBase context, IPrincipal principal, ActionDescriptor action, object routeValues, bool test = false)
         {
             var parameters = new 
                 { 
@@ -19,12 +19,7 @@ namespace System.Web.Mvc
                     Test = test 
                 };
 
-            if (!string.IsNullOrWhiteSpace(attribute.File))
-            {
-                return HttpPowerShell.Invoke<bool>(HttpPowerShellCommand.FromFile(attribute.File, parameters: parameters, useLocalScope: true)).FirstOrDefault();
-            }
-
-            return HttpPowerShell.Invoke<bool>(HttpPowerShellCommand.FromScript(attribute.Script, parameters: parameters, useLocalScope: true)).FirstOrDefault();
+            return attribute.ToCommand(parameters).Invoke<bool>().FirstOrDefault();
         }
 
         public static bool IsAuthorized<T>(this T controller, Expression<Action<T>> action)
@@ -82,11 +77,11 @@ namespace System.Web.Mvc
             return routeValues;
         }
 
-        static IEnumerable<PowerShellAuthorizationAttribute> GetAuthorizationAttributes(ActionDescriptor action)
+        static IEnumerable<PowerShellAuthorization> GetAuthorizationAttributes(ActionDescriptor action)
         {
-            return action.ControllerDescriptor.GetCustomAttributes(typeof(PowerShellAuthorizationAttribute), true)
-                .Union(action.GetCustomAttributes(typeof(PowerShellAuthorizationAttribute), false))
-                .Cast<PowerShellAuthorizationAttribute>();
+            return action.ControllerDescriptor.GetCustomAttributes(typeof(PowerShellAuthorization), true)
+                .Union(action.GetCustomAttributes(typeof(PowerShellAuthorization), false))
+                .Cast<PowerShellAuthorization>();
         }
     }
 }

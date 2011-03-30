@@ -63,5 +63,23 @@ namespace System.Web.PowerShell.Tests
             Assert.AreEqual<int>(values[0], sorted[1]);
             Assert.AreEqual<int>(values[1], sorted[0]);
         }
+
+        [TestMethod]
+        public void can_invoke_script_from_resource_file()
+        {
+            Assert.AreEqual(DateTime.Now.Year, HttpPowerShellCommand.FromResource<PowerShellScripts>("GetYearFromDate").Invoke<int>().First());
+        }
+
+        [TestMethod]
+        public void can_invoke_script_from_resource_string()
+        {
+            Assert.AreEqual(true, HttpPowerShellCommand.FromResource(PowerShellScripts.ResourceManager, "EchoInputs").Invoke<bool>(new bool[] { true }).First());
+        }
+
+        [TestMethod]
+        public void can_invoke_script_from_resource_by_basename()
+        {
+            Assert.AreNotEqual(false, HttpPowerShellCommand.FromResource<HttpPowerShellTests>("System.Web.PowerShell.Tests.PowerShellScripts", "EchoInputs").Invoke<bool>(new bool[] { true }).First());
+        }
     }
 }

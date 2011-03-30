@@ -1,0 +1,7 @@
+process {
+	if ($_ -is [DateTime]) {
+		$_.Year
+	} else {
+		(Get-Date).Year
+	}
+}

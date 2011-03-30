@@ -6,13 +6,15 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "System.Web.PowerShell", "Source\System.Web.PowerShell\System.Web.PowerShell.csproj", "{1CFDB308-D392-43E8-BA3E-3890E273DA2B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{C3626AF6-874C-4632-BABC-F85EF8CE13D0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "System.Web.PowerShell.Tests", "Tests\System.Web.PowerShell.Tests\System.Web.PowerShell.Tests.csproj", "{9FFD259F-CD5A-4E96-A485-41DFF71FF79B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{4DB8EE0A-88AE-4D5B-836D-BFBE7FEA741B}"
 	ProjectSection(SolutionItems) = preProject
 		Local.testsettings = Local.testsettings
 		PowerShell for ASP.NET.vsmdi = PowerShell for ASP.NET.vsmdi
 		TraceAndTestImpact.testsettings = TraceAndTestImpact.testsettings
 	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "System.Web.PowerShell.Tests", "Tests\System.Web.PowerShell.Tests\System.Web.PowerShell.Tests.csproj", "{9FFD259F-CD5A-4E96-A485-41DFF71FF79B}"
 EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
