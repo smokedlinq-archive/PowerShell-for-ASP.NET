@@ -55,7 +55,7 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="HttpPowerShellConfigurationFactoryTest.cs" />
+    <Compile Include="HttpPowerShellObjectFactoryTest.cs" />
     <Compile Include="PowerShellAuthorizationTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="HttpPowerShellTests.cs" />

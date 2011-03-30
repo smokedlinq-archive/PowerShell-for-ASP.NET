@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Management.Automation;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace System.Web.PowerShell.Tests
@@ -30,6 +31,13 @@ namespace System.Web.PowerShell.Tests
                     Assert.Fail("The WMI::Win32_ComputerSystem.Name value is not equal to Environment.MachineName.");
                 }
             }
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(CmdletInvocationException))]
+        public void should_throw_CmdletInvocationException_when_getcredential()
+        {
+            HttpPowerShell.Invoke("Get-Credential");
         }
 
         [TestMethod]

@@ -49,7 +49,7 @@
     <Compile Include="HttpPowerShellCommand.cs" />
     <Compile Include="HttpPowerShellCommandInvoker.cs" />
     <Compile Include="IHttpPowerShellCommand.cs" />
-    <Compile Include="HttpPowerShellConfigurationFactory.cs" />
+    <Compile Include="HttpPowerShellObjectFactory.cs" />
     <Compile Include="DisposableCollection`1.cs" />
     <Compile Include="System.Dynamic\DynamicConverter.cs" />
     <Compile Include="DynamicPSObject.cs" />

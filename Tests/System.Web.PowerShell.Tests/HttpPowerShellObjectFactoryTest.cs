@@ -3,12 +3,12 @@
 namespace System.Web.PowerShell.Tests
 {
     [TestClass]
-    public class HttpPowerShellConfigurationFactoryTest
+    public class HttpPowerShellObjectFactoryTest
     {
         [TestMethod]
-        public void configuration_factory_for_datetime_returns_from_getdate_command()
+        public void object_factory_for_datetime_returns_from_getdate_command()
         {
-            var date = HttpPowerShellConfigurationFactory<DateTime>.FromCommand("Get-Date").CreateInstance();
+            var date = HttpPowerShellObjectFactory<DateTime>.FromCommand("Get-Date").CreateInstance();
             var now = DateTime.Now;
 
             if (now.Subtract(date).TotalSeconds > 5)
