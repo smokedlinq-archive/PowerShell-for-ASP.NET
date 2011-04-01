@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Management.Automation;
 using System.Web.PowerShell;
 
 namespace System.Web.Mvc
@@ -22,7 +23,7 @@ namespace System.Web.Mvc
                 return null;
             }
 
-            return _commands[registeredType].Invoke<object>(new Type[] { serviceType }).FirstOrDefault();
+            return _commands[registeredType].Invoke<PSObject>(new Type[] { serviceType }).FirstOrDefault().BaseObject;
         }
 
         public IEnumerable<object> GetServices(Type serviceType)
@@ -34,7 +35,7 @@ namespace System.Web.Mvc
                 return new object[0];
             }
 
-            return _commands[registeredType].Invoke<object>(new Type[] { serviceType });
+            return _commands[registeredType].Invoke<PSObject>(new Type[] { serviceType }).Select(x => x.BaseObject);
         }
     }
 }

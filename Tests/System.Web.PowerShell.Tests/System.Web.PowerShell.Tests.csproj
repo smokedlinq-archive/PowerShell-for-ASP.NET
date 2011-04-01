@@ -54,6 +54,7 @@
   <ItemGroup>
     <Compile Include="HttpPowerShellObjectFactoryTest.cs" />
     <Compile Include="PowerShellAuthorizationTests.cs" />
+    <Compile Include="PowerShellDependencyResolverTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="HttpPowerShellTests.cs" />
     <Compile Include="PowerShellScripts.Designer.cs">
